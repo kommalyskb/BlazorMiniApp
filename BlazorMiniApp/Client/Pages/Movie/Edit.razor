@@ -1,0 +1,41 @@
+﻿@page "/movie/edit/{Id}/{Title}"
+
+<MovieForm @ref="form" Movie="Movie" OnSaveChanges="OnSaveChanges" ImgUrl="@Movie.Poster">
+    <DeleteButton>
+        <button class="btn btn-danger" type="button" @onclick="ShowConfirm">Delete</button>
+    </DeleteButton>
+</MovieForm>
+
+<Confirmation @ref="confirm" onCancel="onCancel">
+    <span>Are you sure to delete Movie: <b> @Title ? </b></span>
+</Confirmation>
+
+@code {
+
+    [Parameter] public string Id { get; set; }
+    [Parameter] public string Title { get; set; }
+
+    Movie Movie;
+    Confirmation confirm;
+    MovieForm form;
+
+    protected override void OnInitialized()
+    {
+        Movie = new Movie() { Id = "1", Title = "Spider-Man: Far From Home", ReleaseDate = new DateTime(2019, 7, 2), Poster = "https://m.media-amazon.com/images/M/MV5BMGZlNTY1ZWUtYTMzNC00ZjUyLWE0MjQtMTMxN2E3ODYxMWVmXkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_UX182_CR0,0,182,268_AL_.jpg" };
+    }
+
+    private void ShowConfirm()
+    {
+        confirm.Show();
+    }
+    private void onCancel()
+    {
+        confirm.Hide();
+    }
+
+    private void OnSaveChanges()
+    {
+        Console.WriteLine("Save");
+        Console.WriteLine(form.ImgBase64);
+    }
+}

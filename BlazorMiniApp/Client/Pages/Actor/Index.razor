@@ -1,0 +1,36 @@
+﻿@page "/actor"
+@page "/actor/index"
+
+<div class="container-fluid">
+    <div class="row">
+        <h1>Actor Lists</h1>
+
+        <GenericList List="Actors">
+            <NullContent>
+                <span style="color:red">Loading....</span>
+            </NullContent>
+            <EmptyContent>
+                <span style="color:blue">No record found</span>
+            </EmptyContent>
+            <ElementTemplate>
+                <ActorItem Actor="context" />
+            </ElementTemplate>
+        </GenericList>
+    </div>
+</div>
+
+@code {
+
+    List<Actor> Actors;
+    protected async override Task OnInitializedAsync()
+    {
+        await Task.Delay(1000);
+        // Query from API
+        Actors = new List<Actor>()
+        {
+           new Actor(){Id = "1", Name = "Chris Hemsworth", Picture = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Chris_Hemsworth_by_Gage_Skidmore_2_%28cropped%29.jpg/220px-Chris_Hemsworth_by_Gage_Skidmore_2_%28cropped%29.jpg"},
+           new  Actor(){Id = "2", Name = "Brad", Picture = "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Brad_Pitt_2019_by_Glenn_Francis.jpg/350px-Brad_Pitt_2019_by_Glenn_Francis.jpg"}
+
+        };
+    }
+}

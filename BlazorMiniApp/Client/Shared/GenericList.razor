@@ -1,0 +1,46 @@
+﻿@typeparam TItem
+
+@if (List == null)
+{
+    <div class="container-fluid">
+        <div class="row">
+            @NullContent
+
+        </div>
+    </div>
+}
+else if (List.Count == 0)
+{
+    <div class="container-fluid">
+        <div class="row">
+            @EmptyContent
+
+        </div>
+    </div>
+}
+else
+{
+    <div class="container-fluid">
+        <div class="row">
+            @foreach (var item in List)
+            {
+                <div class="col-3">
+                    @ElementTemplate(item)
+                </div>
+            }
+        </div>
+
+    </div>
+}
+
+@code {
+    // Content
+    [Parameter] public RenderFragment NullContent { get; set; }
+    [Parameter] public RenderFragment EmptyContent { get; set; }
+
+    // Data
+    [Parameter] public List<TItem> List { get; set; }
+    // Fragment
+    [Parameter] public RenderFragment<TItem> ElementTemplate { get; set; }
+
+}

@@ -1,0 +1,16 @@
+﻿
+<a href="@movieURL">
+    <img src="@Actor.Picture" alt="Picture"  class="movie-poster" />
+</a>
+<p><a href="@movieURL">@Actor.Name</a></p>
+
+@code {
+    [Parameter] public Actor Actor { get; set; }
+
+    private string movieURL = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        movieURL = $"actor/edit/{Actor.Id}/{Actor.Name.Replace(" ", "-")}";
+    }
+}

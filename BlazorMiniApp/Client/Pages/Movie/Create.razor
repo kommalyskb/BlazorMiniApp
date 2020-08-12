@@ -1,0 +1,14 @@
+﻿@page "/movie/create"
+
+<MovieForm @ref="form" Movie="Movie" OnSaveChanges="OnSaveChanges"/>
+
+@code {
+    Movie Movie = new Movie();
+
+    MovieForm form;
+    private void OnSaveChanges()
+    {
+        Console.WriteLine("Save");
+        Console.WriteLine(form.ImgBase64);
+    }
+}
