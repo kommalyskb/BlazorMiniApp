@@ -1,3 +1,5 @@
+using BlazorMiniApp.Server.Helpers;
+using BlazorMiniApp.Shared.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -24,6 +26,10 @@ namespace BlazorMiniApp.Server
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+            // DI
+            services.AddOptions();
+            services.AddScoped<IMovie, MovieRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
