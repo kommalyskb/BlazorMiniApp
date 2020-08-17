@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using HttpClientService.Blazor;
 using Tewr.Blazor.FileReader;
+using Microsoft.JSInterop;
+using System.Globalization;
 
 namespace BlazorMiniApp.Client
 {
@@ -21,7 +23,24 @@ namespace BlazorMiniApp.Client
             ConfigureService(builder.Services);
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-            await builder.Build().RunAsync();
+            var host = builder.Build();
+            var js = host.Services.GetRequiredService<IJSRuntime>();
+            var culture = await js.InvokeAsync<string>("blazorCulture.get");
+
+            CultureInfo selectedCulture;
+            if (culture == null)
+            {
+                selectedCulture = new CultureInfo("en-US");
+            }
+            else
+            {
+                selectedCulture = new CultureInfo(culture);
+            }
+
+            CultureInfo.DefaultThreadCurrentCulture = selectedCulture;
+            CultureInfo.DefaultThreadCurrentUICulture = selectedCulture;
+
+            await host.RunAsync();
         }
 
         private static void ConfigureService(IServiceCollection services)
@@ -29,6 +48,8 @@ namespace BlazorMiniApp.Client
             services.AddOptions();
             services.AddScoped<IHttpService, HttpService>();
             services.AddFileReaderService(options => options.InitializeOnFirstCall = true);
+            // Localization
+            services.AddLocalization();
         }
     }
 }

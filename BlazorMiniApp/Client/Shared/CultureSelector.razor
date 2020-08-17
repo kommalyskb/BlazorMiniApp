@@ -1,0 +1,39 @@
+﻿@inject NavigationManager nav
+@inject IJSRuntime jsRuntime
+
+<div class="form-inline">
+    <label>Culture &nbsp;&nbsp;</label>
+
+    <select class="form-control" @bind="culture">
+        @foreach (var item in cultures)
+        {
+            <option value="@item">@item.DisplayName</option>
+        }
+    </select>
+</div>
+
+
+@code {
+    CultureInfo[] cultures = new[]
+    {
+        new CultureInfo("en-US"),
+        new CultureInfo("zh-CN"),
+        new CultureInfo("lo-LA"),
+        new CultureInfo("th-TH")
+    };
+
+    CultureInfo culture
+    {
+        get => CultureInfo.CurrentCulture;
+        set
+        {
+            if (CultureInfo.CurrentCulture != value)
+            {
+                var js = (IJSInProcessRuntime)jsRuntime;
+                js.InvokeVoid("blazorCulture.set", value.Name);
+
+                nav.NavigateTo(nav.Uri, forceLoad: true);
+            }
+        }
+    }
+}

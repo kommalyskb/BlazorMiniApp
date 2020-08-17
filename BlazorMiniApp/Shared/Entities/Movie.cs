@@ -27,7 +27,7 @@ namespace BlazorMiniApp.Shared.Entities
         public string Id { get; set; }
 
         [JsonProperty("title")]
-        [Required]
+        [Required(ErrorMessage = "Could not empty")]
         public string Title { get; set; }
 
         [JsonProperty("summary")]
